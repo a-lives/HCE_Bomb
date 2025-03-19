@@ -104,7 +104,7 @@ public class HASBomb extends HostApduService {
         boolean urifirst = sharedPreferences.getBoolean("Uri_first",false);
         NdefRecord appRecord = NdefRecord.createApplicationRecord(appstr);
         NdefRecord uriRecord = NdefRecord.createUri(uristr);
-        if(urifirst){
+        if(!urifirst){
             NdefMessage message = new NdefMessage(new NdefRecord[]{appRecord,uriRecord});
             return message.toByteArray();
         }else {
