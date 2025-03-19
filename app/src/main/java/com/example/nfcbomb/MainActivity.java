@@ -3,6 +3,7 @@ package com.example.nfcbomb;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 import android.nfc.cardemulation.CardEmulation;
@@ -50,6 +51,21 @@ public class MainActivity extends AppCompatActivity {
         }
         if (!adapter.isEnabled()) {
             Toast.makeText(this, "NFC未启用", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        PackageManager pm = getPackageManager();
+        FeatureInfo[] featureInfos = pm.getSystemAvailableFeatures();
+        boolean isSupportHCE = false;
+        for (FeatureInfo f : featureInfos) {
+            if (f != null && PackageManager.FEATURE_NFC_HOST_CARD_EMULATION.equals(f.name)) {
+                isSupportHCE = true;
+                break;
+            }
+        }
+        if(!isSupportHCE){
+            Toast.makeText(this, "不支持HCE", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
