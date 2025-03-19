@@ -1,0 +1,29 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Package">
+        <EditTextPreference
+            android:defaultValue="com.hypergryph.arknights"
+            android:key="Ndef_package"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="domain" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Uri">
+
+        <EditTextPreference
+            android:defaultValue="https://www.hypergryph.com/"
+            android:key="Ndef_uri"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="URL" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Other">
+
+    </PreferenceCategory>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="Uri_first"
+        android:title="Uri first" />
+
+</PreferenceScreen>

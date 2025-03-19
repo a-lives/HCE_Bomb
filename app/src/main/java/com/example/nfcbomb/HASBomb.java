@@ -1,11 +1,14 @@
 package com.example.nfcbomb;
 
 import android.content.ComponentName;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import java.util.Arrays;
 
@@ -92,11 +95,22 @@ public class HASBomb extends HostApduService {
     }
 
     private byte[] getNdefMessage() {
-        NdefRecord appRecord = NdefRecord.createApplicationRecord("com.hypergryph.arknights");
-        NdefRecord appRecord2 = NdefRecord.createApplicationRecord("com.hypergryph.arknights.bilibili");
-        NdefRecord uriRecord = NdefRecord.createUri("https://www.hypergryph.com/");
-        NdefMessage message = new NdefMessage(new NdefRecord[]{appRecord,appRecord2,uriRecord});
-        return message.toByteArray();
+//        NdefRecord appRecord = NdefRecord.createApplicationRecord("com.hypergryph.arknights");
+//        NdefRecord appRecord2 = NdefRecord.createApplicationRecord("com.hypergryph.arknights.bilibili");
+//        NdefRecord uriRecord = NdefRecord.createUri("https://www.hypergryph.com/");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String appstr = sharedPreferences.getString("Ndef_package", "com.hypergryph.arknights");
+        String uristr = sharedPreferences.getString("Ndef_uri","https://www.hypergryph.com/");
+        boolean urifirst = sharedPreferences.getBoolean("Uri_first",false);
+        NdefRecord appRecord = NdefRecord.createApplicationRecord(appstr);
+        NdefRecord uriRecord = NdefRecord.createUri(uristr);
+        if(urifirst){
+            NdefMessage message = new NdefMessage(new NdefRecord[]{appRecord,uriRecord});
+            return message.toByteArray();
+        }else {
+            NdefMessage message = new NdefMessage(new NdefRecord[]{uriRecord, appRecord});
+            return message.toByteArray();
+        }
     }
 
     @Override

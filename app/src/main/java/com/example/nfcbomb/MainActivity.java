@@ -2,8 +2,10 @@ package com.example.nfcbomb;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
+import android.nfc.cardemulation.CardEmulation;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Switch;
@@ -14,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        FloatingActionButton fab2setting = findViewById(R.id.floatingActionButton2setting);
+
+        fab2setting.setOnClickListener((view)-> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
         NfcAdapter adapter = NfcAdapter.getDefaultAdapter(this);
 
         if (adapter == null) {
@@ -44,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.i("MainActivity","OnCreated");
+
+        CardEmulation cardEmulation = CardEmulation.getInstance(adapter);
+        cardEmulation.setPreferredService(this,HASBomb.COMPONENT);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch toggleButton = findViewById(R.id.switch1);
         toggleButton.setOnClickListener(view -> {
