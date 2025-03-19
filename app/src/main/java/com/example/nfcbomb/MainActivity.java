@@ -72,8 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("MainActivity","OnCreated");
 
-        CardEmulation cardEmulation = CardEmulation.getInstance(adapter);
-        cardEmulation.setPreferredService(this,HASBomb.COMPONENT);
+        try {
+            // FIXME 会引起部分机型闪退，不知道为什么
+            CardEmulation cardEmulation = CardEmulation.getInstance(adapter);
+            cardEmulation.setPreferredService(this,HASBomb.COMPONENT);
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this, "Set Preferred Service Failed", Toast.LENGTH_SHORT).show();
+        }
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch toggleButton = findViewById(R.id.switch1);
         toggleButton.setOnClickListener(view -> {

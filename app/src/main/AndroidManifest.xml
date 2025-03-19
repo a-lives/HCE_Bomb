@@ -6,7 +6,7 @@
 
     <uses-feature
         android:name="android.hardware.nfc.hce"
-        android:required="false" />
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +34,7 @@
 
         <service
             android:name=".HASBomb"
+            android:enabled="false"
             android:exported="true"
             android:permission="android.permission.BIND_NFC_SERVICE">
             <intent-filter>
