@@ -14,8 +14,6 @@ public class HASBomb extends HostApduService {
 
     public static final ComponentName COMPONENT = new ComponentName("com.example.nfcbomb", HASBomb.class.getName());
 
-    private final static String TAG = "NfcTest_NdefHostApduService";
-
     private static final byte[] SELECT_APPLICATION = {
             (byte) 0x00, // CLA	- Class - Class of instruction
             (byte) 0xA4, // INS	- Instruction - Instruction code
@@ -84,8 +82,6 @@ public class HASBomb extends HostApduService {
         mNdefSelected = false;
 
         Log.i("HCE","Service on create");
-        // default NDEF-message
-        final String DEFAULT_MESSAGE = "This is the default message from NfcHceNdelEmulator. If you want to change the message use the tab 'Send' to enter an individual message.";
         // the maximum length is 246 so do not extend this value
         byte[] ndefDefaultMessage = getNdefMessage();
         int nlen = ndefDefaultMessage.length;
