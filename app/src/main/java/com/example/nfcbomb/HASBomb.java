@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.Arrays;
 
+
 public class HASBomb extends HostApduService {
 
     public static final ComponentName COMPONENT = new ComponentName("com.example.nfcbomb", HASBomb.class.getName());
@@ -82,6 +83,7 @@ public class HASBomb extends HostApduService {
         mCcSelected = false;
         mNdefSelected = false;
 
+        Log.i("HCE","Service on create");
         // default NDEF-message
         final String DEFAULT_MESSAGE = "This is the default message from NfcHceNdelEmulator. If you want to change the message use the tab 'Send' to enter an individual message.";
         // the maximum length is 246 so do not extend this value
@@ -92,6 +94,15 @@ public class HASBomb extends HostApduService {
         mNdefRecordFile[1] = (byte)(nlen & 0xff);
         System.arraycopy(ndefDefaultMessage, 0, mNdefRecordFile, 2, nlen);
     }
+
+    private byte[] getNdefMessage() {
+        NdefRecord appRecord = NdefRecord.createApplicationRecord("com.hypergryph.arknights");
+        NdefRecord appRecord2 = NdefRecord.createApplicationRecord("com.hypergryph.arknights.bilibili");
+        NdefRecord uriRecord = NdefRecord.createUri("https://www.hypergryph.com/");
+        NdefMessage message = new NdefMessage(new NdefRecord[]{appRecord,appRecord2,uriRecord});
+        return message.toByteArray();
+    }
+
     @Override
     public byte[] processCommandApdu(byte[] commandApdu, Bundle extras) {
         // 1. 检查是否为 SELECT AID 指令
@@ -136,12 +147,6 @@ public class HASBomb extends HostApduService {
             }
         }
         return FAILURE_SW; // 错误状态码
-    }
-
-    private byte[] getNdefMessage() {
-        NdefRecord appRecord = NdefRecord.createUri("https://www.baidu.com");
-        NdefMessage message = new NdefMessage(appRecord);
-        return message.toByteArray();
     }
 
     @Override
